@@ -1,0 +1,6 @@
+EMBULK_SA_CREDENTIAL_JSON_PATH="/embulk-bq-test/study-20220720-f8113fb41ce6.json"
+EMBULK_OUTPUT_PROJECT="study-20220720"
+EMBULK_OUTPUT_DATASET="embulk_bq_test"
+EMBULK_OUTPUT_TABLE="table_created"
+SPREADSHEETS_URL="https://docs.google.com/spreadsheets/d/1tX3dfIhiyJYlzQ06KPQpkk8MEgdy1KlpKJluBlRMP_M/edit#gid=0"
+WORKSHEET_TITLE="spread_table"

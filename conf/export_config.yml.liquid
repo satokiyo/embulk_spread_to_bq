@@ -1,0 +1,59 @@
+in:
+    type: google_spreadsheets
+    # auth_method: authorized_user
+    # auth_method: application_default
+    auth_method: service_account
+    # json_keyfile:
+    #     content: |
+    #         {
+    #             "client_id": '{{ env.EMBULK_GOOGLE_API_CLIENT_ID }}',
+    #             "client_secret": '{{ env.EMBULK_GOOGLE_API_CLIENT_SECRET }}',,
+    #             "refresh_token": '{{ env.EMBULK_GOOGLE_API_REFRESH_TOKEN }}',
+    #         }
+    json_keyfile: {{ env.EMBULK_SA_CREDENTIAL_JSON_PATH }}
+    # json_keyfile: {{ env.EMBULK_USER_CREDENTIAL_JSON_PATH }}
+    # spreadsheets_url: https://docs.google.com/spreadsheets/d/1tX3dfIhiyJYlzQ06KPQpkk8MEgdy1KlpKJluBlRMP_M/edit#gid=0
+    # worksheet_title: spread_table
+    spreadsheets_url: {{ env.SPREADSHEETS_URL }}
+    worksheet_title: {{ env.WORKSHEET_TITLE }}
+    start_row: 2
+    default_timezone: 'Asia/Tokyo'
+    null_string: ''
+    # default_typecast: strict
+    default_typecast: minimal
+    columns:
+        - {name: id, type: long}
+        - {name: count, type: string}
+        - {name: message, type: long}
+        - {name: date, type: timestamp, format: '%Y%m%d', timezone: 'Asia/Tokyo'}
+
+out:
+  type: bigquery
+  # auth_method: application_default
+  auth_method: json_key # = service account
+  # auth_method: authorized_user
+  json_keyfile: {{ env.EMBULK_SA_CREDENTIAL_JSON_PATH }}
+  # json_keyfile: {{ env.EMBULK_USER_CREDENTIAL_JSON_PATH }}
+  location: asia-northeast1
+  mode: replace
+  # mode: append
+  project: {{ env.EMBULK_OUTPUT_PROJECT }}
+  dataset: {{ env.EMBULK_OUTPUT_DATASET }}
+  table: {{ env.EMBULK_OUTPUT_TABLE }}
+  auto_create_table: true
+  # source_format: CSV
+  max_bad_records: 0
+  allow_quoted_newlines: 1
+
+
+
+# out:
+#     type: td
+#     apikey: '{{ env.EMBULK_TD_API_KEY }}'
+#     endpoint: api.treasuredata.com
+#     database: '{{ env.EMBULK_TD_OUT_DB }}'
+#     table: daily_hoge
+#     time_column: date
+#     mode: replace
+#     default_timezone: 'Asia/Tokyo'
+#     default_timestamp_format: '%Y/%m/%d'
